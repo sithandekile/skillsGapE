@@ -38,7 +38,7 @@ const PostProblem = () => {
         budget: formData.budget ? Number(formData.budget) : 0
       };
 
-      await axios.post('http://localhost:5000/api/problems', problemData);
+      await axios.post('https://skillsgape.onrender.com/api/problems', problemData);
       navigate('/dashboard');
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to post problem');

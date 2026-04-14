@@ -27,7 +27,7 @@ const rewardType=["All Reward Types","Job","Internship","Contract","Cash"]
         if (value) queryParams.append(key, value);
       });
 
-      const response = await axios.get(`http://localhost:5000/api/problems?${queryParams}`);
+      const response = await axios.get(`https://skillsgape.onrender.com/api/problems?${queryParams}`);
       setProblems(response.data|| []);
     } catch (error) {
       console.error('Error fetching problems:', error);

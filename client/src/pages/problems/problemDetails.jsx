@@ -39,7 +39,7 @@ const ProblemDetails = () => {
 
   const fetchSubmissions = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/submissions/problem/${id}`);
+      const response = await axios.get(`https://skillsgape.onrender.com/api/submissions/problem/${id}`);
       setSubmissions(response.data);
     } catch (error) {
       console.error('Error fetching submissions:', error);
@@ -68,7 +68,7 @@ const ProblemDetails = () => {
         formData.append('solutionFile', solution.solutionFile);
       }
 
-      await axios.post(`http://localhost:5000/api/submissions/${id}`, formData, {
+      await axios.post(`https://skillsgape.onrender.com/api/submissions/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -96,7 +96,7 @@ const ProblemDetails = () => {
   const handleSelectWinner = async (submissionId) => {
     if (window.confirm('Are you sure you want to select this submission as the winner?')) {
       try {
-        await axios.patch(`http://localhost:5000/api/submissions/${submissionId}`, {
+        await axios.patch(`https://skillsgape.onrender.com/api/submissions/${submissionId}`, {
           status: 'winner'
         });
         fetchSubmissions();

@@ -17,13 +17,13 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       if (user.role === 'employer') {
-        const response = await axios.get('http://localhost:5000/api/problems/my-problems');
+        const response = await axios.get('https://skillsgape.onrender.com/api/problems/my-problems');
         setProblems(response.data);
       } else {
-        const submissionsResponse = await axios.get('http://localhost:5000/api/submissions/my-submissions');
+        const submissionsResponse = await axios.get('https://skillsgape.onrender.com/api/submissions/my-submissions');
         setSubmissions(submissionsResponse.data);
         
-        const problemsResponse = await axios.get('http://localhost:5000/api/problems');
+        const problemsResponse = await axios.get('https://skillsgape.onrender.com/api/problems');
         setProblems(problemsResponse.data);
       }
     } catch (error) {

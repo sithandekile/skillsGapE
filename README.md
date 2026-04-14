@@ -43,4 +43,4 @@ A MERN stack platform where employers post real-world problems and job seekers s
 - Axios for API requests 
 
 github.com/Skill-Gap-Equalizer/Skill-Gap-Equalizer-Backend
-link to 🔗(coming soon)
+link to 🔗https://skills-gap-e.vercel.app/
