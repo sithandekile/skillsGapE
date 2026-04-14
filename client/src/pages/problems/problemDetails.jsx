@@ -9,7 +9,12 @@ const ProblemDetails = () => {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [solution, setSolution] = useState('');
+  const [solution, setSolution] = useState({
+    solutionText:"",
+    githubRepo:"",
+    liveDemo:"",
+    solutionFile: null
+  });
   const [showSubmissionForm, setShowSubmissionForm] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -40,19 +45,41 @@ const ProblemDetails = () => {
       console.error('Error fetching submissions:', error);
     }
   };
+  
 
   const handleSubmitSolution = async (e) => {
     e.preventDefault();
-    if (!solution.trim()) return;
+     if (
+      !solution.solutionText.trim() ||
+      !solution.githubRepo.trim() ||
+      !solution.liveDemo.trim()
+    ) {
+      alert('Please fill in all fields');
+      return;
+    }
 
     setSubmitting(true);
     try {
-      await axios.post(`http://localhost:5000/api/submissions/${id}`, {
-        problemId: id,
-        solutionText: solution
+      const formData = new FormData();
+      formData.append('solutionText', solution.solutionText);
+      formData.append('githubRepo', solution.githubRepo);
+      formData.append('liveDemo', solution.liveDemo);
+      if (solution.solutionFile) {
+        formData.append('solutionFile', solution.solutionFile);
+      }
+
+      await axios.post(`http://localhost:5000/api/submissions/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
-      setSolution('');
+      setSolution({
+        solutionText:"",
+        githubRepo:"",
+        liveDemo:"",
+        solutionFile: null
+      });
       setShowSubmissionForm(false);
       alert('Solution submitted successfully!');
       if (user?.role === 'jobseeker') {
@@ -93,7 +120,7 @@ const ProblemDetails = () => {
         <div className="flex justify-between items-start mb-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">{problem.title}</h1>
-            <p className="text-gray-600 mt-2">Posted by {problem.postedBy?.username}</p>
+            <p className="text-gray-600 mt-2">Posted by {problem.postedBy?.email}</p>
           </div>
           <div className="text-right">
             <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
@@ -160,12 +187,41 @@ const ProblemDetails = () => {
                     id="solution"
                     rows="6"
                     className="form-input"
-                    value={solution}
-                    onChange={(e) => setSolution(e.target.value)}
+                    value={solution.solutionText}
+                    onChange={(e) => setSolution({...solution,solutionText:e.target.value})}
                     placeholder="Describe your solution in detail..."
                     required
                   />
                 </div>
+                <div>
+                <label>GitHub Repository:</label>
+                <input
+                  type="url"
+                  value={solution.githubRepo}
+                  onChange={(e) => setSolution({...solution,githubRepo:e.target.value})}
+                  placeholder="https://github.com/yourrepo"
+                />
+              </div>
+              <div>
+                <label>Live Demo:</label>
+                <input
+                  type="url"
+                  value={solution.liveDemo}
+                  onChange={(e) => setSolution({...solution,liveDemo:e.target.value})}
+                  placeholder="https://yourdemo.com"
+                />
+              </div>
+              <div>
+                <label htmlFor="solutionFile" className="block text-sm font-medium text-gray-700 mb-2">
+                  Solution File (Optional)
+                </label>
+                <input
+                  id="solutionFile"
+                  type="file"
+                  className="form-input"
+                  onChange={(e) => setSolution({...solution, solutionFile: e.target.files[0]})}
+                />
+              </div>
                 <div className="flex gap-3">
                   <button
                     type="submit"
@@ -190,18 +246,18 @@ const ProblemDetails = () => {
 
       {user?.role === 'employer' && (
         <div className="card">
-          <h2 className="text-2xl font-bold mb-4">Submissions ({submissions.length})</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">Submissions ({submissions.length})</h2>
           
           {submissions.length === 0 ? (
             <p className="text-gray-600">No submissions yet.</p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
               {submissions.map(submission => (
-                <div key={submission._id} className="border rounded-lg p-4">
+                <div key={submission._id} className="border border-gray-300 h-[350px] rounded-lg p-4 ">
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h4 className="font-semibold">
-                        Submitted by: {submission.submittedBy?.username}
+                        Submitted by: {submission.submittedBy?.email}
                       </h4>
                       <p className="text-sm text-gray-600">
                         {new Date(submission.createdAt).toLocaleDateString()}
@@ -216,8 +272,39 @@ const ProblemDetails = () => {
                     </span>
                   </div>
                   
-                  <div className="prose max-w-none mb-3">
-                    <p className="text-gray-700 whitespace-pre-line">{submission.solutionText}</p>
+                  <div className="prose max-w-none mb-3 overflow-y-auto max-h-[200px]">
+                    <p className="text-gray-700 whitespace-pre-line text-sm">{submission.solutionText}</p>
+
+                    {submission.githubRepo && (
+                      <p className="text-blue-600 mt-2 text-sm">
+                        GitHub: <a href={submission.githubRepo} target="_blank" rel="noopener noreferrer" className="underline">{submission.githubRepo}</a>
+                      </p>
+                    )}
+
+                    {submission.liveDemo && (
+                      <p className="text-blue-600 mt-1 text-sm">
+                        Live Demo: <a href={submission.liveDemo} target="_blank" rel="noopener noreferrer" className="underline">{submission.liveDemo}</a>
+                      </p>
+                    )}
+
+                    {submission.solutionFile && (
+                      <div className="mt-3">
+                        <p className="text-sm font-medium text-gray-700 mb-2">Uploaded File:</p>
+                        <img 
+                          src={`http://localhost:5000/${submission.solutionFile}`} 
+                          alt="Solution file" 
+                          className="max-w-full h-auto rounded border border-gray-300"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            const parent = e.target.parentElement;
+                            const error = document.createElement('p');
+                            error.className = 'text-red-600 text-sm';
+                            error.textContent = 'Image failed to load';
+                            parent.appendChild(error);
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {submission.status !== 'winner' && (
@@ -227,6 +314,21 @@ const ProblemDetails = () => {
                     >
                       Select as Winner
                     </button>
+                  )}
+
+                  {submission.score !== undefined && submission.score !== null && (
+                    <div className="mt-3 bg-blue-50 border border-blue-200 rounded p-2">
+                      <p className="text-sm font-medium text-blue-900">
+                        Score: <span className="font-bold">{submission.score}/100</span>
+                      </p>
+                    </div>
+                  )}
+
+                  {submission.feedback && (
+                    <div className="mt-3 bg-gray-50 border border-gray-300 rounded p-2">
+                      <p className="text-sm font-medium text-gray-700 mb-1">Feedback:</p>
+                      <p className="text-sm text-gray-600 whitespace-pre-line">{submission.feedback}</p>
+                    </div>
                   )}
                 </div>
               ))}

@@ -11,7 +11,8 @@ const ProblemList = () => {
     difficulty: '',
     rewardType: ''
   });
-
+const experience=["All Difficulties","Beginner","Intermediate","Advanced"]
+const rewardType=["All Reward Types","Job","Internship","Contract","Cash"]
   useEffect(() => {
     fetchProblems();
   }, [filters]);
@@ -27,7 +28,7 @@ const ProblemList = () => {
       });
 
       const response = await axios.get(`http://localhost:5000/api/problems?${queryParams}`);
-      setProblems(response.data);
+      setProblems(response.data|| []);
     } catch (error) {
       console.error('Error fetching problems:', error);
       setError(error.response?.data?.message || 'Failed to fetch problems');
@@ -39,7 +40,7 @@ const ProblemList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
+      <div className="flex justify-center items-center py-12 my-20">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     );
@@ -72,22 +73,30 @@ const ProblemList = () => {
             value={filters.difficulty}
             onChange={(e) => setFilters({...filters, difficulty: e.target.value})}
           >
-            <option value="">All Difficulties</option>
-            <option value="beginner">Beginner</option>
+            {experience.map((exp)=>(<option key={exp}value={exp}>
+             {exp}
+            </option>))}
+            
+            {/* <option value="beginner"></option>
             <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+            <option value="advanced">Advanced</option> */}
           </select>
           <select 
             className="form-input w-auto"
             value={filters.rewardType}
             onChange={(e) => setFilters({...filters, rewardType: e.target.value})}
           >
-            <option value="">All Reward Types</option>
-            <option value="job">Job</option>
+            {rewardType.map((reward)=>(
+              <option key={reward} value={reward}>
+                {reward}
+              </option>
+            ))}
+          {/* <option value="">All Reward Types</option>
+             <option value="job">Job</option>
             <option value="internship">Internship</option>
             <option value="contract">Contract</option>
-            <option value="cash">Cash</option>
-          </select>
+             <option value="cash">Cash</option>*/}
+          </select> 
         </div>
       </div>
 
@@ -106,6 +115,7 @@ const ProblemList = () => {
                     {problem.title}
                   </Link>
                   <p className="text-gray-600 mt-2 line-clamp-2">{problem.description}</p>
+                  <p>postedBy:{problem.postedBy?.email}</p>
                   <div className="flex flex-wrap gap-2 mt-3">
                     {problem.skillsRequired.map(skill => (
                       <span key={skill} className="bg-primary-100 text-primary-800 text-sm px-2 py-1 rounded">

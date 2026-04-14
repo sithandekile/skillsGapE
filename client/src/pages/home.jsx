@@ -1,63 +1,97 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
+import { AiOutlineSolution } from "react-icons/ai";
+import { BsAward } from "react-icons/bs";
+import { CgBriefcase } from "react-icons/cg";
+import heroImage from '../assets/skillsHero.jpg'
+
+
+
 
 const Home = () => {
   const { user } = useAuth();
 
   return (
     <div className="min-h-screen">
+   
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-600 to-primary-700  py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">
-            Bridge the Skill Gap with Real Problems
-          </h1>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Employers post real challenges. Job seekers demonstrate skills through solutions. 
-            Find perfect matches beyond traditional resumes.
-          </p>
-          <div className="space-x-4">
-            {!user ? (
-              <>
-                <Link to="/register?role=jobseeker" className=" bg-cyan-500 p-2 rounded-lg text-white hover:bg-cyan-400/100 backdrop-blur-lg">
-                  Start Solving Problems
-                </Link>
-                <Link to="/register?role=employer" className="btn-secondary border-white text-white hover:bg-white hover:text-primary-600">
-                  Post Challenges
-                </Link>
-              </>
-            ) : (
-              <Link to="/problems" className="btn-primary bg-cyan-500 text-white hover:bg-gray-100">
-                Explore Problems
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
+   <section className="min-h-[80vh] flex items-center">
+  {/* <div className="absolute inset-0 bg-black/30"></div> */}
 
+  <div className="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+    
+    {/* Left Text Section */}
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+        Bridge the Skill Gap with Real-World Problems
+      </h1>
+
+      <p className="text-lg text-gray-600 max-w-xl">
+        Employers post real challenges. Job seekers prove their skills by solving them.
+        A smarter, fairer way to connect talent with opportunity.
+      </p>
+
+      <div className="flex gap-4 mt-6">
+        {!user ? (
+          <>
+            <Link
+              to="/login?role=jobseeker"
+              className="px-6 py-3 border border-red-500 text-red-900 font-semibold rounded-lg hover:bg-gray-100 transition"
+            >
+              Start Solving Problems
+            </Link>
+
+            <Link
+              to="/login?role=employer"
+              className="px-6 py-3 border text-white font-semibold rounded-lg bg-yellow-500 hover:bg-yellow-300 transition"
+            >
+              Post Challenges
+            </Link>
+          </>
+        ) : (
+          <Link
+            to="/problems"
+            className="px-6 py-3 bg-yellow-500 text-red-900 font-semibold rounded-lg hover:bg-gray-100 transition"
+          >
+            Explore Problems
+          </Link>
+        )}
+      </div>
+    </div>
+
+    {/* Right Image Section */}
+    <div className="flex justify-center">
+      <img
+        src={heroImage}
+        alt="Hero"
+        className="w-full max-w-lg md:max-w-lg rounded-2xl shadow-xl"
+      />
+    </div>
+  </div>
+</section>
       {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
+          <div className="grid md:grid-cols-3 gap-8" >
+            <div className="text-center bg-[#efefef]">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💼</span>
+                <span className="text-6xl text-red-500"><CgBriefcase/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Employers Post Problems</h3>
               <p className="text-gray-600">Post real business challenges instead of job descriptions</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-[#efefef]">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💡</span>
+                <span className="text-5xl text-yellow"><AiOutlineSolution/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Solvers Submit Solutions</h3>
               <p className="text-gray-600">Demonstrate skills through practical solutions, individually or in teams</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-[#efefef]">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🏆</span>
+                <span className="text-5xl text-[#14B8C4]"><BsAward/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Best Solutions Win</h3>
               <p className="text-gray-600">Top solutions receive job offers, internships, or cash rewards</p>

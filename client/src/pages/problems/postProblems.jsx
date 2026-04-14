@@ -99,7 +99,6 @@ const PostProblem = () => {
             placeholder="Describe the problem in detail, including requirements, constraints, and evaluation criteria..."
           />
         </div>
-
         <div>
           <label htmlFor="skillsRequired" className="block text-sm font-medium text-gray-700 mb-2">
             Required Skills (comma separated) *
