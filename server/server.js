@@ -7,7 +7,7 @@ const dbConnection=require('./config/db')
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173'}));
+app.use(cors('*));
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
