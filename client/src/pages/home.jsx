@@ -4,7 +4,7 @@ import { useAuth } from '../context/authContext';
 import { AiOutlineSolution } from "react-icons/ai";
 import { BsAward } from "react-icons/bs";
 import { CgBriefcase } from "react-icons/cg";
-import heroImage from '../assets/skillsHero.jpg'
+import heroImage from '../assets/portFImg.png'
 
 
 
@@ -24,12 +24,13 @@ const Home = () => {
     {/* Left Text Section */}
     <div className="space-y-6">
       <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
-        Bridge the Skill Gap with Real-World Problems
+        Drive real change in hiring with real-world challenges
       </h1>
 
       <p className="text-lg text-gray-600 max-w-xl">
-        Employers post real challenges. Job seekers prove their skills by solving them.
-        A smarter, fairer way to connect talent with opportunity.
+        A platform where employers create impact-driven problems
+         and job seekers prove their value through solutions, 
+         making opportunity fairer, faster, and more meaningful.
       </p>
 
       <div className="flex gap-4 mt-6">
@@ -44,7 +45,7 @@ const Home = () => {
 
             <Link
               to="/login?role=employer"
-              className="px-6 py-3 border text-white font-semibold rounded-lg bg-yellow-500 hover:bg-yellow-300 transition"
+              className="px-6 py-3 border text-white font-semibold rounded-lg bg-[#14B8C4] hover:bg-cyan-400/100 backdrop-blur-lg transition"
             >
               Post Challenges
             </Link>
@@ -77,20 +78,20 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-8" >
             <div className="text-center bg-[#efefef]">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-6xl text-red-500"><CgBriefcase/></span>
+                <span className="text-6xl text-[#14B8C4]"><CgBriefcase/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Employers Post Problems</h3>
               <p className="text-gray-600">Post real business challenges instead of job descriptions</p>
             </div>
             <div className="text-center bg-[#efefef]">
               <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-5xl text-yellow"><AiOutlineSolution/></span>
+                <span className="text-5xl text-[#14B8C4]"><AiOutlineSolution/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Solvers Submit Solutions</h3>
               <p className="text-gray-600">Demonstrate skills through practical solutions, individually or in teams</p>
             </div>
             <div className="text-center bg-[#efefef]">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className=" w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-5xl text-[#14B8C4]"><BsAward/></span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Best Solutions Win</h3>
