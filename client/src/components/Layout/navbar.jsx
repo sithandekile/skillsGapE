@@ -17,7 +17,7 @@ const Navbar = () => {
             </Link>
 
 
-            {/* <div className="ml-10 flex items-baseline space-x-4 a:active-[#14B8C4]">
+            <div className="ml-10 flex items-baseline space-x-4 a:active-[#14B8C4]">
               <NavLink 
                 to="/problems" 
                 className={`px-3 py-2 rounded-md text-lg font-medium ${
@@ -27,7 +27,7 @@ const Navbar = () => {
                 }`}
               >
                 Problems
-              </NavLink> */}
+              </NavLink> 
               {user?.role === 'employer' && (
                 <NavLink 
                   to="/post-problem" 
@@ -46,7 +46,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
-                <NavLink to="/problems" className="text-gray-700 hover:text-primary-600">
+                <NavLink to="/dashboard" className="text-gray-700 hover:text-primary-600">
                   Dashboard
                 </NavLink>
                 <span className="text-gray-700 rounded-full bg-gray-200 px-3 py-1">
