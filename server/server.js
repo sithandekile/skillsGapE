@@ -12,6 +12,12 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 // Routes
+app.get('/health',(req,res)=>{
+  res.status(200).json({
+    status:'ok',message:'Skills Gap API is running',
+    timestamp: new Date().ISOString()
+  });
+});
 app.use('/api/auth', require('./routes/userRoutes'));
 app.use('/api/problems', require('./routes/probRoutes'));
 app.use('/api/submissions', require('./routes/submition'));
